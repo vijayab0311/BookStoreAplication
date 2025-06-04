@@ -1,4 +1,4 @@
-# BookStoreAplication
+📚# BookStoreAplication
 # (Flask,Django,MYSQL)
 BookstoreApplication 
 Introduction: 
@@ -14,7 +14,7 @@ centralized system to handle bookstore management effectively.
 • To enable easy inventory management and order tracking for the admin. 
 • To reduce manual errors, improve accessibility, and enhance user experience. 
  
-# Project Flow: 
+# Project Flow📚: 
 1. Homepage – Visitors land here and can browse available books. 
 2. User Registration/Login – Customers sign up or log in to access features. 
 3. Book Browsing/Search – Users can browse books by category or search directly. 
@@ -37,7 +37,7 @@ Working:
 • Checkout & Payment: Complete purchase via a secure process. 
 • Order History: View details of past purchases. 
  
-# Functionality (Brief Overview): 
+# Functionality (Brief Overview) 📚: 
 • Secure login system for both admin and users. 
 • CRUD operations for books and categories (admin). 
 • Dynamic book listing and search functionality. 
