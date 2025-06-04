@@ -1,5 +1,5 @@
 # BookStoreAplication
-(Flask,Django,MYSQL)
+# (Flask,Django,MYSQL)
 BookstoreApplication 
 Introduction: 
 The Bookstore Application is a web-based platform developed to manage the operations of 
