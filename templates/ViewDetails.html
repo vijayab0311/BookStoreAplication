@@ -1,0 +1,61 @@
+
+{% extends "homepage.html" %}
+
+
+{% block content %}
+<form method="POST">
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">{{ book[1] }}</div>
+        <input type="hidden" name="bookid" value="{{ book[0] }}">
+
+        <div class="panel-body">
+            <table class="table">
+                <tr>
+                    <td>Book Image</td>
+                    <td>
+                        <img src="{{ url_for('static', filename=book[5]) }}" 
+                             class="img-thumbnail" style="width:150px;height:150px;" alt="Book Image">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td>₹ {{ book[4] }}</td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>{{ book[3] }}</td>
+                </tr>
+                <tr>
+                    <td>Author</td>
+                    <td>{{ book[2] }}</td>
+                </tr>
+                <tr>
+                    <td>Category</td>
+                    <td>{{ book[7] }}</td>
+                </tr>
+                <tr>
+                    <td>Quantity</td>
+                    <td>
+                        <select name="quantity" class="form-control" required>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>            
+        </div>
+
+        <div class="panel-footer text-center">
+            <button class="btn btn-success" type="submit">Add To Cart</button>
+           
+           
+        </div>
+    </div>
+</div>
+</form>
+{% endblock %}
+

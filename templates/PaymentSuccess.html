@@ -1,0 +1,17 @@
+{% extends "masterpage.html" %}
+
+{% block content %}
+    <div class="alert alert-success">
+        <h4 class="alert-heading">Payment Successful!</h4>
+        <p>Your payment was successfully processed. Thank you for your purchase!</p>
+        <hr>
+        <p class="mb-0">You will be redirected to the homepage shortly...</p>
+    </div>
+
+    <script>
+        // Redirect to homepage after 3 seconds
+        setTimeout(function() {
+            window.location.href = "{{ url_for('homepage') }}";  // Assuming 'home' is the homepage route
+        }, 4000);
+    </script>
+{% endblock %}

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Cart - Book Haven</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- JQuery and Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        body {
+            background: linear-gradient(to right, #0F2027, #203A43, #2C5364);
+            color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            margin-bottom: 20px;
+            border-radius: 0;
+            background: linear-gradient(90deg, #16222A, #3A6073);
+            border: none;
+        }
+        .navbar-inverse .navbar-nav > li > a,
+        .navbar-inverse .navbar-brand {
+            color: white;
+        }
+
+        .table > thead {
+            background-color: #16222A;
+            color: #fff;
+        }
+
+        .table > tbody > tr:hover td {
+            background-color: #334756;
+           
+        }
+
+        .checkout-btn {
+            background: linear-gradient(90deg,rgb(17, 46, 24), #218838);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 30px;
+            transition: 0.3s;
+        }
+        .checkout-btn:hover {
+            background: linear-gradient(90deg, #218838, #1e7e34);
+            color: #fff;
+        }
+
+        .remove-btn {
+            background: linear-gradient(90deg,rgb(252, 23, 46),rgb(110, 20, 26));
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            font-weight: bold;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+        .remove-btn:hover {
+            background: linear-gradient(90deg, #c82333, #bd2130);
+        }
+
+        .panel {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        footer {
+            background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            padding: 30px 20px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        footer form input {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border-radius: 20px;
+            padding: 8px 12px;
+            border: none;
+        }
+        footer .btn-custom {
+            background: linear-gradient(90deg, #f7971e, #ffd200);
+            color: black;
+            font-weight: bold;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            margin-left: 10px;
+        }
+        footer .btn-custom:hover {
+            background: linear-gradient(90deg, #ff8008, #ffc837);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      {% if "username" in session %}
+      <a class="navbar-brand" href="#">Welcome {{ session["username"] }}!</a>
+      {% else %}
+      <a class="navbar-brand" href="#">Welcome Guest!</a>
+      {% endif %}
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="/">Home</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Categories
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            {% for cat in categories %}
+            <li><a href="/view_books/{{ cat[0] }}">{{ cat[1] }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+        <li class="active"><a href="/showcart">My Cart</a></li>
+        <li><a href="/offers">Offers</a></li>
+        <li><a href="/orders">My Orders</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if "username" in session %}
+        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        {% else %}
+        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Cart Section -->
+<div class="container">
+    <h2 class="text-center">Your Book Cart</h2>
+
+    {% if cart_items %}
+    <div class="panel">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-center">
+                <thead>
+                    <tr>
+                        <th>Cart ID</th>
+                        <th>Book ID</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Price (₹)</th>
+                        <th>Quantity</th>
+                        <th>Total (₹)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item[0] }}</td>
+                        <td>{{ item[1] }}</td>
+                        <td>{{ item[2] }}</td>
+                        <td>{{ item[3] }}</td>
+                        <td>{{ item[4] }}</td>
+                        <td>
+                          <div class="input-group" style="width: 120px; margin: auto;">
+                            <span class="input-group-btn">
+                              <button class="btn btn-danger btn-xs" type="button" onclick="decrement('{{ item[0] }}')">-</button>
+                            </span>
+                            <input type="text" class="form-control input-sm text-center" id="qty_{{ item[0] }}" value="{{ item[5] }}" readonly>
+                            <span class="input-group-btn">
+                              <button class="btn btn-success btn-xs" type="button" onclick="increment('{{ item[0] }}')">+</button>
+                            </span>
+                          </div>
+                        </td>
+                        <td>{{ item[6] }}</td>
+                        <td>
+                           <a href="{{ url_for('removeCart', cartid=item[0]) }}" class="btn remove-btn btn-sm">Remove</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="text-center">Grand Total: ₹{{ grand_total }}</h3>
+
+        <div class="text-center">
+            <a href="{{ url_for('makepayment') }}" class="btn checkout-btn">Proceed to Payment</a>
+        </div>
+    </div>
+    {% else %}
+    <p class="text-center">Your cart is empty.</p>
+    {% endif %}
+</div>
+
+<!-- Footer -->
+<footer class="text-center">
+  <div class="container">
+    <h4>Subscribe for Updates</h4>
+    <form class="form-inline">
+      <input type="email" class="form-control" placeholder="Enter email">
+      <button class="btn btn-custom" type="submit">Subscribe</button>
+    </form>
+    <p>&copy; 2025 Book Haven. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+    function increment(txt_id) {
+        let myid = "qty_" + txt_id;
+        let input = document.getElementById(myid);
+        let x = parseInt(input.value);
+        if (x < 5) {
+            input.value = x + 1;
+        }
+    }
+    
+    function decrement(txt_id) {
+        let myid = "qty_" + txt_id;
+        let input = document.getElementById(myid);
+        let x = parseInt(input.value);
+        if (x > 1) {
+            input.value = x - 1;
+        }
+    }
+    </script>
+
+</body>
+</html>

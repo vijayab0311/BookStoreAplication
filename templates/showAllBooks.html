@@ -1,0 +1,46 @@
+{% extends "adminDashboard.html" %}
+
+{% block title %}All Books{% endblock %}
+
+{% block content %}
+  <div class="container" style="width: 100%; background-color: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);">
+      <h1 style="text-align: center; color: #4B3F72;">All Books</h1>
+      <div class="add-link" style="text-align: right; margin-bottom: 20px;">
+          <a href="/addBook" style="background-color: #4B3F72; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px;">+ Add New Book</a>
+      </div>
+      <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+              <tr style="background-color: #eee2dc; color: #5c5470;">
+                  <th>Image</th>
+                  <th>Book Title</th>
+                  <th>Author</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for book in books %}
+              <tr style="background-color: {% if loop.index0 % 2 == 0 %}#f9f4f0{% else %}white{% endif %};">
+                  <td><img src="{{ url_for('static', filename=book[5]) }}" class="book-img" style="height: 80px; border-radius: 5px;" /></td>
+                  <td>{{ book[1] }}</td>
+                  <td>{{ book[2] }}</td>
+                  <td>{{ book[7] }}</td>
+                  <td>₹{{ book[4] }}</td>
+                  <td>
+                      <a href="/editBook/{{ book[0] }}">
+                          <button class="action-btn edit-btn" style="padding: 6px 14px; background-color: #4B3F72; color: white; border-radius: 5px;">Edit</button>
+                      </a>
+                  </td>
+                  <td>
+                      <a href="/deleteBook/{{ book[0] }}">
+                          <button class="action-btn delete-btn" style="padding: 6px 14px; background-color: #d9534f; color: white; border-radius: 5px;">Delete</button>
+                      </a>
+                  </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+  </div>
+{% endblock %}

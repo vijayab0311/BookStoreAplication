@@ -1,0 +1,37 @@
+{% extends "adminDashboard.html" %}
+
+{% block title %}All Book Categories{% endblock %}
+
+{% block content %}
+  <center>
+    <h1 style="color: #b22222;">📚 Book Categories</h1>
+    <a class="button top-link" href="/addCategory" style="text-decoration: none; background-color: #4B3F72; color: white; padding: 6px 12px; border-radius: 5px; display: inline-block; margin-bottom: 20px;">➕ Add New Category</a>
+    <hr/>
+    <table style="border-collapse: separate; border-spacing: 0 10px; width: 80%; margin-top: 20px; box-shadow: 0 0 15px rgba(0,0,0,0.1);">
+        <tr>
+            <th style="background-color:rgb(190, 48, 69); color: white; padding: 12px;">Category ID</th>
+            <th style="background-color:rgb(190, 48, 69); color: white;">Category Name</th>
+            <th style="background-color:rgb(190, 48, 69); color: white;">Edit</th>
+            <th style="background-color:rgb(190, 48, 69); color: white;">Delete</th>
+        </tr>
+        {% for cat in cats %}
+        <tr style="background-color: {% if loop.index0 % 2 == 0 %}#fdf1ec{% else %}white{% endif %};">
+            <td style="padding: 10px;">{{ cat[0] }}</td>
+            <td style="padding: 10px;">{{ cat[1] }}</td>
+            <td style="padding: 10px;">
+                <a class="button" href="/editCategory/{{ cat[0] }}" 
+                   style="background-color: #4B3F72; color: white; padding: 6px 12px; border-radius: 5px;">
+                   Edit
+                </a>
+            </td>
+            <td style="padding: 10px;">
+                <a class="button" href="/deleteCategory/{{ cat[0] }}" 
+                   style="background-color: #d9534f; color: white; padding: 6px 12px; border-radius: 5px;">
+                   Delete
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+  </center>
+{% endblock %}

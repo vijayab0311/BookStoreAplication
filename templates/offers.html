@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Offers - Book Haven</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #0F2027, #203A43, #2C5364);
+      color:rgb(90, 83, 10);
+    }
+    .panel-primary {
+      margin-top: 30px;
+      transition: 0.4s;
+    }
+    .panel-primary:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 14px 28px rgba(255, 215, 0, 0.25);
+    }
+    .panel-heading {
+      font-size: 20px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #43cea2, #185a9d);
+      color: black;
+    }
+    .panel-body {
+      background-color: rgba(255, 255, 255, 0.02);
+      text-align: center;
+    }
+    .btn-custom {
+      background: linear-gradient(90deg, #f7971e, #ffd200);
+      color: black;
+      font-weight: bold;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      text-transform: uppercase;
+      transition: 0.3s;
+    }
+    .btn-custom:hover {
+      background: linear-gradient(90deg, #ff8008, #ffc837);
+      transform: scale(1.08);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      {% if "username" in session %}
+      <a class="navbar-brand" href="#">Welcome {{ session["username"] }}!</a>
+      {% else %}
+      <a class="navbar-brand" href="#">Welcome Guest!</a>
+      {% endif %}
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/offers">Offers</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if "username" in session %}
+        <li><a href="/cart"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
+        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        {% else %}
+        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Offers Section -->
+<div class="container">
+  <h2 class="text-center">Our Special Offers</h2>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">Buy 1 Get 1 Free</div>
+        <div class="panel-body">
+          <img src="/static/images/offer1.jpg" class="img-thumbnail" alt="Offer 1">
+          <p>Get one book free with every purchase of any title from our store. Limited time offer!</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">20% Off on Bestsellers</div>
+        <div class="panel-body">
+          <img src="/static/images/sale1.webp" class="img-thumbnail" alt="Offer 2">
+          <p>Enjoy 20% off on all bestseller titles. Don’t miss out on the latest trending books!</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">Free Shipping</div>
+        <div class="panel-body">
+          <img src="/static/images/sale2.jpg" class="img-thumbnail" alt="Offer 3">
+          <p>Free shipping on all orders above $50. No additional costs for delivery!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="container-fluid text-center">
+  <p>&copy; 2025 Book Haven | All Rights Reserved</p>
+  <form class="form-inline">
+    Subscribe for Deals:
+    <input type="email" class="form-control" size="50" placeholder="Email Address">
+    <button type="button" class="btn btn-custom">Subscribe</button>
+  </form>
+</footer>
+
+</body>
+</html>

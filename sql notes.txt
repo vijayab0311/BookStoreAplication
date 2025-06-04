@@ -1,0 +1,155 @@
+
+
+mysql> create database MyBookStoreDB;
+Query OK, 1 row affected (0.03 sec)
+
+
+mysql> use MyBookStoreDB;
+Database changed
+mysql> create table Category (
+    ->     cid int primary key auto_increment,
+    ->     cat_name varchar(50)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> create table Book (
+    ->     bookid int primary key auto_increment,
+    ->     book_title varchar(100),
+    ->     author varchar(100),
+    ->     description varchar(255),
+    ->     price float,
+    ->     image_url varchar(255),
+    ->     cid int
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc Book
+    -> ;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| bookid      | int          | NO   | PRI | NULL    | auto_increment |
+| book_title  | varchar(100) | YES  |     | NULL    |                |
+| author      | varchar(100) | YES  |     | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| price       | float        | YES  |     | NULL    |                |
+| image_url   | varchar(255) | YES  |     | NULL    |                |
+| cid         | int          | YES  |     | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+7 rows in set (0.02 sec)
+
+mysql> desc Category;
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| cid      | int         | NO   | PRI | NULL    | auto_increment |
+| cat_name | varchar(50) | YES  |     | NULL    |                |
++----------+-------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> alter table Book add foreign key (cid) references Category(cid);
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc Book;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| bookid      | int          | NO   | PRI | NULL    | auto_increment |
+| book_title  | varchar(100) | YES  |     | NULL    |                |
+| author      | varchar(100) | YES  |     | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| price       | float        | YES  |     | NULL    |                |
+| image_url   | varchar(255) | YES  |     | NULL    |                |
+| cid         | int          | YES  | MUL | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> select b.bookid, b.book_title, b.author, b.description, b.price, b.image_url, c.cid, c.cat_name
+    -> from Book b
+    -> inner join Category c on b.cid = c.cid;
+Empty set (0.00 sec)
+
+mysql> desc Book;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| bookid      | int          | NO   | PRI | NULL    | auto_increment |
+| book_title  | varchar(100) | YES  |     | NULL    |                |
+| author      | varchar(100) | YES  |     | NULL    |                |
+| description | varchar(255) | YES  |     | NULL    |                |
+| price       | float        | YES  |     | NULL    |                |
+| image_url   | varchar(255) | YES  |     | NULL    |                |
+| cid         | int          | YES  | MUL | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> create view cat_book_vw as (
+    ->     select b.bookid, b.book_title, b.author, b.description, b.price, b.image_url, c.cid, c.cat_name
+    ->     from Book b
+    ->     inner join Category c on b.cid = c.cid
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table AdminLogin (
+    ->     username varchar(50) primary key,
+    ->     password varchar(50)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select count(*) from AdminLogin where username='admin1' and password='admin@123';
++----------+
+| count(*) |
++----------+
+|        0 |
++----------+
+1 row in set (0.01 sec)
+
+mysql> create table UserInfo (
+    ->     username varchar(50) primary key,
+    ->     password varchar(50)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table Cart (
+    ->     cartid int primary key auto_increment,
+    ->     username varchar(50),
+    ->     bookid int,
+    ->     quantity int,
+    ->     order_date datetime,
+    ->     foreign key (username) references UserInfo(username),
+    ->     foreign key (bookid) references Book(bookid)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+
+CREATE TABLE payment (
+    cardno VARCHAR(16) PRIMARY KEY,
+    cvv VARCHAR(4) NOT NULL,
+    expiry VARCHAR(7) NOT NULL,  -- e.g., "04/28"
+    balance DECIMAL(10, 2) NOT NULL
+);
+
+INSERT INTO payment (cardno, cvv, expiry, balance) VALUES
+('1111222233334444', '123', '12/26', 1000.00),  -- Test buyer card
+('222', '000', '12/30', 5000.00);               -- Store's card
+
+
+
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50),
+    order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    total_amount DECIMAL(10, 2),
+    FOREIGN KEY (username) REFERENCES UserInfo(username)
+);
+
+CREATE TABLE order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT,
+    bookid INT,
+    quantity INT,
+    price DECIMAL(10, 2),
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (bookid) REFERENCES Book(bookid)
+);

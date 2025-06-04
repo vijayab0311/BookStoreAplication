@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}Admin Dashboard - BookStore{% endblock %}</title>
+  <style>
+    /* same CSS as your original */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fffaf0;
+      color: #333;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background-color: #8b4513;
+      color: white;
+      width: 250px;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      position: fixed;
+      height: 100%;
+      box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      transition: background 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #a0522d;
+      padding-left: 10px;
+      border-radius: 5px;
+    }
+
+    .content {
+      margin-left: 250px;
+      padding: 40px;
+      flex: 1;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 15px;
+      }
+
+      .sidebar h2 {
+        display: none;
+      }
+
+      .content {
+        margin-left: 0;
+        padding: 20px;
+      }
+
+      .sidebar a {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>📚 BookStore</h2>
+    <a href="/showAllCategories">📂 Categories</a>
+    <a href="/showAllBooks">📖 Books</a>
+    <a href="/adminLogout">🚪 Logout</a>
+  </div>
+
+
+  <div class="content">
+    {% block content %}
+    {% endblock %}
+  </div>
+
+
+</body>
+</html>
+
